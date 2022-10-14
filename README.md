@@ -18,7 +18,7 @@ To add a keyboard shortcut for `bm`, add a line to your `~/.inputrc`. The
 following example sets `C-j` to automatically pick a bookmark and `cd` into it:
 
 ```shell
-"\C-j": "cd $(bm --expand)"
+"\C-j": "\C-ucd $(bm --expand)\C-m\C-l"
 ```
 
 ## Usage
