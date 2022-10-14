@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-~/.config/}"
+BOOKMARKS_DIR="${XDG_CONFIG_HOME}/bm"
+BM="$0"
+COMMAND="${1:-""}"
+
+if [ ! -d "${BOOKMARKS_DIR}" ]; then
+  mkdir -p "${BOOKMARKS_DIR}"
+fi
+
+LS="exa"
+if ! which exal 2>/dev/null; then
+  LS="ls"
+fi
+
+case "$COMMAND" in
+  --expand)
+    export FZF_DEFAULT_OPTS="--preview '$BM --preview {}' --prompt 'jump to: '"
+
+    BOOKMARK=$(ls -1 "${BOOKMARKS_DIR}" | fzf)
+
+    if [ "${BOOKMARK}" = "" ]; then
+      echo "."
+    else
+      $BM --resolve "${BOOKMARK}"
+    fi
+    ;;
+
+  --preview)
+    BOOKMARK="${2:-}"
+    RESOLVED="$($BM --resolve "${BOOKMARK}")"
+    echo "$(tput smul; tput bold)${RESOLVED}$(tput sgr0)"
+    exa -1 "${RESOLVED}"
+    ;;
+
+  --resolve)
+    BOOKMARK=${2:-}
+    readlink -f ${BOOKMARKS_DIR}/${BOOKMARK}
+    ;;
+
+  --list)
+    $LS -1 ${BOOKMARKS_DIR} | while read BOOKMARK; do
+      echo "${BOOKMARK}: $($BM --resolve "${BOOKMARK}")"
+    done
+    ;;
+
+  *|"")
+    ln -s $(realpath .) "${BOOKMARKS_DIR}/${COMMAND}"
+    ;;
+esac
