@@ -2,6 +2,11 @@
 
 Quickly jump to bookmarked places in your filesystem.
 
+## Requirements
+
+- [fzf](https://github.com/junegunn/fzf.vim)
+- [exa](https://github.com/ogham/exa) _(optional)_
+
 ## Install
 
 If you have a `~/bin` folder that is in your `PATH`, just run the following
