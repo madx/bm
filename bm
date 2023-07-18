@@ -22,7 +22,11 @@ case "$COMMAND" in
   --expand)
     export FZF_DEFAULT_OPTS="--preview '$BM --preview {}' --prompt 'jump to: '"
 
+    # Failsafe if fzf fails/escapes prematurely
+    set +e
     BOOKMARK=$(ls -1 "${BOOKMARKS_DIR}" | fzf)
+    RETURNVALUE=$?
+    set -e
 
     if [ "${BOOKMARK}" = "" ]; then
       echo "."
