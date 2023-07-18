@@ -16,6 +16,9 @@ if ! which exal 2>/dev/null; then
 fi
 
 case "$COMMAND" in
+  --help)
+    echo "bm --expand|--preview|--resolve|--list"
+    ;;
   --expand)
     export FZF_DEFAULT_OPTS="--preview '$BM --preview {}' --prompt 'jump to: '"
 
