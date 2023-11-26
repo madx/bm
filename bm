@@ -39,7 +39,7 @@ case "$COMMAND" in
     BOOKMARK="${2:-}"
     RESOLVED="$($BM --resolve "${BOOKMARK}")"
     echo "$(tput smul; tput bold)${RESOLVED}$(tput sgr0)"
-    exa -1 "${RESOLVED}"
+    $LS -1 "${RESOLVED}"
     ;;
 
   --resolve)
