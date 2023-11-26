@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-~/.config/}"
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config/}"
 BOOKMARKS_DIR="${XDG_CONFIG_HOME}/bm"
 BM="$0"
 COMMAND="${1:-""}"
