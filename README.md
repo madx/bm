@@ -49,4 +49,6 @@ bm --preview hello
 bm --resolve hello
 # Interactively pick a bookmark and resolve it
 bm --expand
+# Interactively pick a bookmark and remove it (Esc to escape)
+bm --expand-remove
 ```
