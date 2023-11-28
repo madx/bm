@@ -18,7 +18,7 @@ fi
 
 case "$COMMAND" in
   -h|--help)
-    echo "bm --expand|--preview|--resolve|--list"
+    echo "bm --version|--expand|--preview|--resolve|--remove|--list"
     ;;
   -v|--version)
     echo "bm $BM_VERSION"
