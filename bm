@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+BM_VERSION=0.1.0
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config/}"
 BOOKMARKS_DIR="${XDG_CONFIG_HOME}/bm"
 BM="$0"
@@ -18,6 +19,9 @@ fi
 case "$COMMAND" in
   --help)
     echo "bm --expand|--preview|--resolve|--list"
+    ;;
+  -v|--version)
+    echo "bm $BM_VERSION"
     ;;
   --expand)
     export FZF_DEFAULT_OPTS="--preview '$BM --preview {}' --prompt 'jump to: '"
