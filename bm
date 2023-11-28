@@ -80,6 +80,12 @@ case "$COMMAND" in
     fi
     ;;
 
+  -*|--*)
+    echo "Unknown option $COMMAND"
+    $BM --help
+    exit 1
+    ;;
+
   *|"")
     ln -s "$(realpath .)" "${BOOKMARKS_DIR}/${COMMAND}"
     ;;
