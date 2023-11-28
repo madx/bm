@@ -17,7 +17,7 @@ if ! which exa >/dev/null 2>&1; then
 fi
 
 case "$COMMAND" in
-  --help)
+  -h|--help)
     echo "bm --expand|--preview|--resolve|--list"
     ;;
   -v|--version)
