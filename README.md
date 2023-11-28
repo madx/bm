@@ -26,6 +26,12 @@ following example sets `C-j` to automatically pick a bookmark and `cd` into it:
 "\C-j": "\C-ucd $(bm --expand)\C-m\C-l"
 ```
 
+Or, if you use `pushd`:
+
+```shell
+"\C-j": "\C-upushd $(bm --expand)\C-m\C-l"
+```
+
 ## Usage
 
 ```shell
@@ -33,8 +39,12 @@ following example sets `C-j` to automatically pick a bookmark and `cd` into it:
 bm
 # Creates a bookmark for the current directory named "hello"
 bm hello
+# Remove existing bookmark hello
+bm --remove hello
 # List available bookmarks
 bm --list
+# Preview the contents of hello
+bm --preview hello
 # Expand bookmark hello to its full path
 bm --resolve hello
 # Interactively pick a bookmark and resolve it
