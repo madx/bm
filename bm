@@ -58,6 +58,6 @@ case "$COMMAND" in
     ;;
 
   *|"")
-    ln -s $(realpath .) "${BOOKMARKS_DIR}/${COMMAND}"
+    ln -s "$(realpath .)" "${BOOKMARKS_DIR}/${COMMAND}"
     ;;
 esac
