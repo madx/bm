@@ -51,6 +51,11 @@ case "$COMMAND" in
     readlink -f ${BOOKMARKS_DIR}/${BOOKMARK}
     ;;
 
+  -r|--remove)
+    BOOKMARK=${2:-}
+    rm ${BOOKMARKS_DIR}/${BOOKMARK}
+    ;;
+
   --list)
     if [ "$LS" = "exa" ]; then
       $LS -1 ${BOOKMARKS_DIR}
