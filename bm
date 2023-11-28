@@ -18,12 +18,12 @@ fi
 
 case "$COMMAND" in
   -h|--help)
-    echo "bm --version|--expand|--preview|--resolve|--remove|--list"
+    echo "bm --version|--expand|--preview|--resolve|--remove|--expand-remove|--list"
     ;;
   -v|--version)
     echo "bm $BM_VERSION"
     ;;
-  -x|--expand)
+  -x|--expand|-xr|-rx|--expand-remove)
     export FZF_DEFAULT_OPTS="--preview '$BM --preview {}' --prompt 'jump to: '"
 
     # Failsafe if fzf fails/escapes prematurely
@@ -34,8 +34,10 @@ case "$COMMAND" in
 
     if [ "${BOOKMARK}" = "" ]; then
       echo "."
-    else
+    elif  [ "$COMMAND" = "-x" ] || [ "$COMMAND" = "--expand" ]; then
       $BM --resolve "${BOOKMARK}"
+    else
+      $BM --remove "${BOOKMARK}"
     fi
     ;;
 
