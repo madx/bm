@@ -23,7 +23,7 @@ To add a keyboard shortcut for `bm`, add a line to your `~/.inputrc`. The
 following example sets `C-j` to automatically pick a bookmark and `cd` into it:
 
 ```shell
-"\C-j": "\C-ucd $(bm --expand)\C-m\C-l"
+"\C-j": "\C-ucd $(bm --expand-interactive)\C-m\C-l"
 ```
 
 Or, if you use `pushd`:
@@ -41,14 +41,14 @@ bm
 bm hello
 # Remove existing bookmark hello
 bm --remove hello
+# Interactively pick a bookmark and remove it (Esc to escape)
+bm --remove-interactive
 # List available bookmarks
 bm --list
 # Preview the contents of hello
 bm --preview hello
 # Expand bookmark hello to its full path
-bm --resolve hello
-# Interactively pick a bookmark and resolve it
-bm --expand
-# Interactively pick a bookmark and remove it (Esc to escape)
-bm --expand-remove
+bm --expand hello
+# Interactively pick a bookmark and resolve it (Esc to cancel)
+bm --expand-interactive
 ```

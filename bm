@@ -16,46 +16,58 @@ if ! which exa >/dev/null 2>&1; then
   LS="ls"
 fi
 
+function bm_pick_bookmark() {
+  export FZF_DEFAULT_OPTS="--preview '$BM --preview {}' --prompt 'bookmark: '"
+
+  # Failsafe if fzf fails/escapes prematurely
+  set +e
+  BOOKMARK=$(ls -1 "${BOOKMARKS_DIR}" | fzf)
+  set -e
+
+  echo "$BOOKMARK"
+}
+
 case "$COMMAND" in
   -h|--help)
-    echo "bm --version|--expand|--preview|--resolve|--remove|--expand-remove|--list"
+    echo "bm --version|--expand|--expand-interactive|--preview|--remove|--remove-interactive|--list"
     ;;
   -v|--version)
     echo "bm $BM_VERSION"
     ;;
-  -x|--expand|-xr|-rx|--expand-remove)
-    export FZF_DEFAULT_OPTS="--preview '$BM --preview {}' --prompt 'jump to: '"
 
-    # Failsafe if fzf fails/escapes prematurely
-    set +e
-    BOOKMARK=$(ls -1 "${BOOKMARKS_DIR}" | fzf)
-    RETURNVALUE=$?
-    set -e
+  -x|--expand|-xi|--expand-interactive)
+    if [ "-xi" = "$COMMAND" -o "--expand-interactive" = "$COMMAND" ]; then
+      BOOKMARK=$(bm_pick_bookmark)
+    else
+      BOOKMARK=${2:-}
+    fi
 
     if [ "${BOOKMARK}" = "" ]; then
       echo "."
-    elif  [ "$COMMAND" = "-x" ] || [ "$COMMAND" = "--expand" ]; then
-      $BM --resolve "${BOOKMARK}"
     else
-      $BM --remove "${BOOKMARK}"
+      readlink -f ${BOOKMARKS_DIR}/${BOOKMARK}
+    fi
+    ;;
+
+  -r|--remove|-ri|--remove-interactive)
+    if [ "-ri" = "$COMMAND" -o "--remove-interactive" = "$COMMAND" ]; then
+      BOOKMARK=$(bm_pick_bookmark)
+    else
+      BOOKMARK=${2:-}
+    fi
+
+    if [ "${BOOKMARK}" = "" ]; then
+      echo "Nothing to remove"
+    else
+      rm ${BOOKMARKS_DIR}/${BOOKMARK}
     fi
     ;;
 
   -p|--preview)
     BOOKMARK="${2:-}"
-    RESOLVED="$($BM --resolve "${BOOKMARK}")"
+    RESOLVED="$($BM --expand "${BOOKMARK}")"
     echo "$(tput smul; tput bold)${RESOLVED}$(tput sgr0)"
     $LS -1 "${RESOLVED}"
-    ;;
-
-  -s|--resolve)
-    BOOKMARK=${2:-}
-    readlink -f ${BOOKMARKS_DIR}/${BOOKMARK}
-    ;;
-
-  -r|--remove)
-    BOOKMARK=${2:-}
-    rm ${BOOKMARKS_DIR}/${BOOKMARK}
     ;;
 
   -l|--list)
