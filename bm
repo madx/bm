@@ -10,8 +10,8 @@ if [ ! -d "${BOOKMARKS_DIR}" ]; then
   mkdir -p "${BOOKMARKS_DIR}"
 fi
 
-LS="exa"
-if ! which exal 2>/dev/null; then
+LS=${LS:-exa}
+if ! which exa >/dev/null 2>&1; then
   LS="ls"
 fi
 
@@ -48,9 +48,13 @@ case "$COMMAND" in
     ;;
 
   --list)
-    $LS -1 ${BOOKMARKS_DIR} | while read BOOKMARK; do
-      echo "${BOOKMARK}: $($BM --resolve "${BOOKMARK}")"
-    done
+    if [ "$LS" = "exa" ]; then
+      $LS -1 ${BOOKMARKS_DIR}
+    else
+      $LS -1 ${BOOKMARKS_DIR} | while read BOOKMARK; do
+        echo "${BOOKMARK}: $($BM --resolve "${BOOKMARK}")"
+      done
+    fi
     ;;
 
   *|"")
