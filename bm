@@ -23,7 +23,7 @@ case "$COMMAND" in
   -v|--version)
     echo "bm $BM_VERSION"
     ;;
-  --expand)
+  -x|--expand)
     export FZF_DEFAULT_OPTS="--preview '$BM --preview {}' --prompt 'jump to: '"
 
     # Failsafe if fzf fails/escapes prematurely
@@ -39,14 +39,14 @@ case "$COMMAND" in
     fi
     ;;
 
-  --preview)
+  -p|--preview)
     BOOKMARK="${2:-}"
     RESOLVED="$($BM --resolve "${BOOKMARK}")"
     echo "$(tput smul; tput bold)${RESOLVED}$(tput sgr0)"
     $LS -1 "${RESOLVED}"
     ;;
 
-  --resolve)
+  -s|--resolve)
     BOOKMARK=${2:-}
     readlink -f ${BOOKMARKS_DIR}/${BOOKMARK}
     ;;
@@ -56,7 +56,7 @@ case "$COMMAND" in
     rm ${BOOKMARKS_DIR}/${BOOKMARK}
     ;;
 
-  --list)
+  -l|--list)
     if [ "$LS" = "exa" ]; then
       $LS -1 ${BOOKMARKS_DIR}
     else
